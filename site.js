@@ -350,11 +350,10 @@ function featureScreenCardHtml(screen, index, isClone = false) {
 function renderFeatureScreens() {
   const grid = byId("featureScreenGrid");
   if (!grid) return;
-  const lastIndex = featureScreens.length - 1;
   const cards = [
-    featureScreenCardHtml(featureScreens[lastIndex], lastIndex, true),
+    ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index, true)),
     ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index)),
-    featureScreenCardHtml(featureScreens[0], 0, true)
+    ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index, true))
   ];
   grid.innerHTML = cards.join("");
 
@@ -393,22 +392,31 @@ function loopFeatureScreensIfNeeded() {
   const cards = realFeatureScreenCards();
   const firstRealCard = cards[0];
   const lastRealCard = cards[cards.length - 1];
-  const firstClone = document.querySelector(".feature-screen-clone:first-child");
-  const lastClone = document.querySelector(".feature-screen-clone:last-child");
-  if (!firstRealCard || !lastRealCard || !firstClone || !lastClone) return;
+  if (!firstRealCard || !lastRealCard) return;
 
-  const snapTolerance = Math.max(12, viewport.clientWidth * 0.08);
-  if (Math.abs(viewport.scrollLeft - firstClone.offsetLeft) <= snapTolerance) {
-    viewport.scrollLeft = lastRealCard.offsetLeft;
-  } else if (Math.abs(viewport.scrollLeft - lastClone.offsetLeft) <= snapTolerance) {
-    viewport.scrollLeft = firstRealCard.offsetLeft;
+  const cardWidth = firstRealCard.getBoundingClientRect().width;
+  const realSetWidth = cardWidth * featureScreens.length;
+  const beforeRealSet = firstRealCard.offsetLeft - cardWidth / 2;
+  const afterRealSet = lastRealCard.offsetLeft + cardWidth / 2;
+  let nextScrollLeft = viewport.scrollLeft;
+
+  if (viewport.scrollLeft < beforeRealSet) {
+    nextScrollLeft += realSetWidth;
+  } else if (viewport.scrollLeft > afterRealSet) {
+    nextScrollLeft -= realSetWidth;
+  }
+
+  if (nextScrollLeft !== viewport.scrollLeft) {
+    const previousBehavior = viewport.style.scrollBehavior;
+    viewport.style.scrollBehavior = "auto";
+    viewport.scrollLeft = nextScrollLeft;
+    viewport.style.scrollBehavior = previousBehavior;
   }
 }
 
 function handleFeatureScreenScroll() {
   updateFeatureScreenControls();
-  window.clearTimeout(handleFeatureScreenScroll.resetTimer);
-  handleFeatureScreenScroll.resetTimer = window.setTimeout(loopFeatureScreensIfNeeded, 80);
+  loopFeatureScreensIfNeeded();
 }
 
 function updateFeatureScreenControls() {
