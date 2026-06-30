@@ -367,7 +367,7 @@ function renderFeatureScreens() {
 }
 
 function isFeatureScreenLoopMode() {
-  return window.matchMedia("(max-width: 640px) and (orientation: portrait)").matches;
+  return window.matchMedia("(max-width: 640px)").matches;
 }
 
 function realFeatureScreenCards() {
