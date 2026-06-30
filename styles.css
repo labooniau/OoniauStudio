@@ -931,7 +931,12 @@ footer {
   }
 
   .feature-screen-card {
-    grid-template-columns: minmax(7rem, 38%) minmax(0, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .feature-screen-card img {
+    width: min(100%, 13rem);
+    justify-self: center;
   }
 
   .section,
@@ -950,12 +955,8 @@ footer {
 }
 
 @media (max-width: 430px) {
-  .feature-screen-card {
-    grid-template-columns: 1fr;
-  }
-
   .feature-screen-card img {
-    width: min(100%, 13rem);
+    width: min(100%, 12rem);
     justify-self: center;
   }
 }
