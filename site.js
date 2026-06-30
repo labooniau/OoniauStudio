@@ -334,27 +334,81 @@ function renderFeaturedProduct() {
   `;
 }
 
+function featureScreenCardHtml(screen, index, isClone = false) {
+  const [title, description] = screen[shotLocale];
+  return `
+    <article class="feature-screen-card${isClone ? " feature-screen-clone" : ""}"${isClone ? ' aria-hidden="true"' : ""} data-feature-index="${index}">
+      <img src="${screenshotPath(index)}" loading="lazy" alt="${t("screenshotAlt")} ${index + 1}">
+      <div>
+        <h3>${title}</h3>
+        <p>${description}</p>
+      </div>
+    </article>
+  `;
+}
+
 function renderFeatureScreens() {
   const grid = byId("featureScreenGrid");
   if (!grid) return;
-  grid.innerHTML = featureScreens.map((screen, index) => {
-    const [title, description] = screen[shotLocale];
-    return `
-      <article class="feature-screen-card">
-        <img src="${screenshotPath(index)}" loading="lazy" alt="${t("screenshotAlt")} ${index + 1}">
-        <div>
-          <h3>${title}</h3>
-          <p>${description}</p>
-        </div>
-      </article>
-    `;
-  }).join("");
+  const lastIndex = featureScreens.length - 1;
+  const cards = [
+    featureScreenCardHtml(featureScreens[lastIndex], lastIndex, true),
+    ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index)),
+    featureScreenCardHtml(featureScreens[0], 0, true)
+  ];
+  grid.innerHTML = cards.join("");
 
   document.querySelectorAll("[data-shot-locale]").forEach((button) => {
     button.classList.toggle("active", button.dataset.shotLocale === shotLocale);
   });
 
   updateFeatureScreenControls();
+  requestAnimationFrame(syncFeatureScreenLoopPosition);
+}
+
+function isFeatureScreenLoopMode() {
+  return window.matchMedia("(max-width: 640px) and (orientation: portrait)").matches;
+}
+
+function realFeatureScreenCards() {
+  return Array.from(document.querySelectorAll(".feature-screen-card:not(.feature-screen-clone)"));
+}
+
+function syncFeatureScreenLoopPosition() {
+  const viewport = byId("featureScreenViewport");
+  const firstRealCard = realFeatureScreenCards()[0];
+  if (!viewport || !firstRealCard) return;
+
+  if (isFeatureScreenLoopMode()) {
+    viewport.scrollLeft = firstRealCard.offsetLeft;
+  } else {
+    viewport.scrollLeft = 0;
+  }
+}
+
+function loopFeatureScreensIfNeeded() {
+  const viewport = byId("featureScreenViewport");
+  if (!viewport || !isFeatureScreenLoopMode()) return;
+
+  const cards = realFeatureScreenCards();
+  const firstRealCard = cards[0];
+  const lastRealCard = cards[cards.length - 1];
+  const firstClone = document.querySelector(".feature-screen-clone:first-child");
+  const lastClone = document.querySelector(".feature-screen-clone:last-child");
+  if (!firstRealCard || !lastRealCard || !firstClone || !lastClone) return;
+
+  const snapTolerance = Math.max(12, viewport.clientWidth * 0.08);
+  if (Math.abs(viewport.scrollLeft - firstClone.offsetLeft) <= snapTolerance) {
+    viewport.scrollLeft = lastRealCard.offsetLeft;
+  } else if (Math.abs(viewport.scrollLeft - lastClone.offsetLeft) <= snapTolerance) {
+    viewport.scrollLeft = firstRealCard.offsetLeft;
+  }
+}
+
+function handleFeatureScreenScroll() {
+  updateFeatureScreenControls();
+  window.clearTimeout(handleFeatureScreenScroll.resetTimer);
+  handleFeatureScreenScroll.resetTimer = window.setTimeout(loopFeatureScreensIfNeeded, 80);
 }
 
 function updateFeatureScreenControls() {
@@ -442,7 +496,8 @@ byId("carouselPrev")?.addEventListener("click", () => moveCarousel(-1));
 byId("carouselNext")?.addEventListener("click", () => moveCarousel(1));
 byId("featureScreenPrev")?.addEventListener("click", () => moveFeatureScreens(-1));
 byId("featureScreenNext")?.addEventListener("click", () => moveFeatureScreens(1));
-byId("featureScreenViewport")?.addEventListener("scroll", updateFeatureScreenControls);
+byId("featureScreenViewport")?.addEventListener("scroll", handleFeatureScreenScroll);
+window.addEventListener("resize", () => requestAnimationFrame(syncFeatureScreenLoopPosition));
 
 document.addEventListener("click", (event) => {
   const dot = event.target.closest("[data-product-index]");

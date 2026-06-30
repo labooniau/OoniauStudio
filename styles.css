@@ -632,6 +632,10 @@ footer {
   padding: 0.8rem;
 }
 
+.feature-screen-clone {
+  display: none;
+}
+
 .feature-screen-button {
   display: none;
 }
@@ -979,5 +983,9 @@ footer {
     min-width: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  .feature-screen-clone {
+    display: grid;
   }
 }
