@@ -357,13 +357,6 @@ function renderFeatureScreens() {
   });
 
   updateFeatureScreenControls();
-  requestAnimationFrame(resetFeatureScreenPosition);
-}
-
-function resetFeatureScreenPosition() {
-  const viewport = byId("featureScreenViewport");
-  if (!viewport) return;
-  viewport.scrollLeft = 0;
 }
 
 function handleFeatureScreenScroll() {
