@@ -334,10 +334,10 @@ function renderFeaturedProduct() {
   `;
 }
 
-function featureScreenCardHtml(screen, index, isClone = false) {
+function featureScreenCardHtml(screen, index) {
   const [title, description] = screen[shotLocale];
   return `
-    <article class="feature-screen-card${isClone ? " feature-screen-clone" : ""}"${isClone ? ' aria-hidden="true"' : ""} data-feature-index="${index}">
+    <article class="feature-screen-card" data-feature-index="${index}">
       <img src="${screenshotPath(index)}" loading="lazy" alt="${t("screenshotAlt")} ${index + 1}">
       <div>
         <h3>${title}</h3>
@@ -350,73 +350,24 @@ function featureScreenCardHtml(screen, index, isClone = false) {
 function renderFeatureScreens() {
   const grid = byId("featureScreenGrid");
   if (!grid) return;
-  const cards = [
-    ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index, true)),
-    ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index)),
-    ...featureScreens.map((screen, index) => featureScreenCardHtml(screen, index, true))
-  ];
-  grid.innerHTML = cards.join("");
+  grid.innerHTML = featureScreens.map((screen, index) => featureScreenCardHtml(screen, index)).join("");
 
   document.querySelectorAll("[data-shot-locale]").forEach((button) => {
     button.classList.toggle("active", button.dataset.shotLocale === shotLocale);
   });
 
   updateFeatureScreenControls();
-  requestAnimationFrame(syncFeatureScreenLoopPosition);
+  requestAnimationFrame(resetFeatureScreenPosition);
 }
 
-function isFeatureScreenLoopMode() {
-  return window.matchMedia("(max-width: 820px) and (orientation: portrait)").matches;
-}
-
-function realFeatureScreenCards() {
-  return Array.from(document.querySelectorAll(".feature-screen-card:not(.feature-screen-clone)"));
-}
-
-function syncFeatureScreenLoopPosition() {
+function resetFeatureScreenPosition() {
   const viewport = byId("featureScreenViewport");
-  const firstRealCard = realFeatureScreenCards()[0];
-  if (!viewport || !firstRealCard) return;
-
-  if (isFeatureScreenLoopMode()) {
-    viewport.scrollLeft = firstRealCard.offsetLeft;
-  } else {
-    viewport.scrollLeft = 0;
-  }
-}
-
-function loopFeatureScreensIfNeeded() {
-  const viewport = byId("featureScreenViewport");
-  if (!viewport || !isFeatureScreenLoopMode()) return;
-
-  const cards = realFeatureScreenCards();
-  const firstRealCard = cards[0];
-  const lastRealCard = cards[cards.length - 1];
-  if (!firstRealCard || !lastRealCard) return;
-
-  const cardWidth = firstRealCard.getBoundingClientRect().width;
-  const realSetWidth = cardWidth * featureScreens.length;
-  const beforeRealSet = firstRealCard.offsetLeft - cardWidth / 2;
-  const afterRealSet = lastRealCard.offsetLeft + cardWidth / 2;
-  let nextScrollLeft = viewport.scrollLeft;
-
-  if (viewport.scrollLeft < beforeRealSet) {
-    nextScrollLeft += realSetWidth;
-  } else if (viewport.scrollLeft > afterRealSet) {
-    nextScrollLeft -= realSetWidth;
-  }
-
-  if (nextScrollLeft !== viewport.scrollLeft) {
-    const previousBehavior = viewport.style.scrollBehavior;
-    viewport.style.scrollBehavior = "auto";
-    viewport.scrollLeft = nextScrollLeft;
-    viewport.style.scrollBehavior = previousBehavior;
-  }
+  if (!viewport) return;
+  viewport.scrollLeft = 0;
 }
 
 function handleFeatureScreenScroll() {
   updateFeatureScreenControls();
-  loopFeatureScreensIfNeeded();
 }
 
 function updateFeatureScreenControls() {
@@ -505,7 +456,6 @@ byId("carouselNext")?.addEventListener("click", () => moveCarousel(1));
 byId("featureScreenPrev")?.addEventListener("click", () => moveFeatureScreens(-1));
 byId("featureScreenNext")?.addEventListener("click", () => moveFeatureScreens(1));
 byId("featureScreenViewport")?.addEventListener("scroll", handleFeatureScreenScroll);
-window.addEventListener("resize", () => requestAnimationFrame(syncFeatureScreenLoopPosition));
 
 document.addEventListener("click", (event) => {
   const dot = event.target.closest("[data-product-index]");

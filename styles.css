@@ -632,10 +632,6 @@ footer {
   padding: 0.8rem;
 }
 
-.feature-screen-clone {
-  display: none;
-}
-
 .feature-screen-button {
   display: none;
 }
@@ -1005,7 +1001,4 @@ footer {
     justify-self: center;
   }
 
-  .feature-screen-clone {
-    display: grid;
-  }
 }
