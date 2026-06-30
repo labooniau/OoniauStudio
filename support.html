@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Support | Ooniau Studio</title>
+    <meta name="description" content="Support page for Ooniau Studio apps.">
+    <link rel="icon" href="assets/brand/ooniau-logo.png">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="about.html">
+        <img src="assets/brand/ooniau-logo.png" alt="Ooniau Studio logo">
+        <span>Ooniau Studio</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="twusstockpro.html" data-i18n="navProducts">Products</a>
+      </nav>
+      <button class="lang-toggle" type="button" id="langToggle" aria-label="Toggle language">EN</button>
+    </header>
+
+    <main class="content-page">
+      <p class="eyebrow" data-i18n="contactLabel">Support</p>
+      <h1 data-i18n="supportPageTitle">Support Center</h1>
+      <p class="hero-text" data-i18n="supportHero">For TW/US Stock NotePro and other Ooniau Studio products, use the checklist below before contacting support.</p>
+
+      <div class="support-grid">
+        <section class="support-card">
+          <h2 data-i18n="supportProductTitle">TW/US Stock NotePro</h2>
+          <ul data-i18n-list="supportProductItems">
+            <li>Portfolio data is stored locally. Use export data before changing devices or reinstalling.</li>
+            <li>Quote and broker features require valid provider API keys and network access.</li>
+            <li>Cloud AI requires a supported AI provider key. Local AI requires importing a compatible GGUF model.</li>
+            <li>The app is for recordkeeping and review, not guaranteed investment advice.</li>
+          </ul>
+        </section>
+        <section class="support-card">
+          <h2 data-i18n="supportFixesTitle">Common Fixes</h2>
+          <ul data-i18n-list="supportFixesItems">
+            <li>Confirm the selected language, display mode, and font size in Settings.</li>
+            <li>If market data fails, test the quote provider key again and check the provider quota.</li>
+            <li>If AI replies fail, test the AI connection and verify the model name or API URL.</li>
+            <li>For local model issues, choose a smaller quantized GGUF model and keep the phone charged.</li>
+          </ul>
+        </section>
+        <section class="support-card">
+          <h2 data-i18n="aboutContactTitle">Contact</h2>
+          <p><span data-i18n="emailTitle">Email Support</span>: <a href="mailto:labooniau@gmail.com">labooniau@gmail.com</a></p>
+          <p data-i18n="supportContactBody">Please include device model, OS version, app version, screenshots, and the steps that caused the issue.</p>
+        </section>
+      </div>
+    </main>
+    <script src="site.js"></script>
+  </body>
+</html>

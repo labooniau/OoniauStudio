@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ooniau Studio</title>
+  <meta name="description" content="Ooniau Studio product site.">
+  <meta property="og:title" content="Ooniau Studio">
+  <meta property="og:description" content="Products by Ooniau Studio.">
+  <meta property="og:image" content="assets/brand/ooniau-logo.png">
+  <link rel="icon" href="assets/brand/ooniau-logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="About Ooniau Studio">
+      <img src="assets/brand/ooniau-logo.png" alt="Ooniau Studio logo">
+      <span>Ooniau Studio</span>
+    </a>
+    <nav aria-label="Primary">
+      <div class="menu-tree">
+        <button class="menu-trigger" type="button" data-menu-trigger="products" aria-expanded="false"
+          data-i18n="navProducts">產品</button>
+        <div class="menu-panel" data-menu-panel="products">
+          <button class="menu-row" type="button" data-submenu-trigger="apps" aria-expanded="false">Apps</button>
+          <div class="submenu-panel" data-submenu-panel="apps">
+            <a href="twusstockpro.html">TWUS StockPro</a>
+          </div>
+        </div>
+      </div>
+      <a href="about.html" data-i18n="navAbout">關於</a>
+      <a href="twusstockpro.html#contact" data-i18n="navContact">聯絡</a>
+    </nav>
+    <button class="lang-toggle" type="button" id="langToggle" aria-label="Toggle language">EN</button>
+  </header>
+
+  <main id="top">
+    <section class="product-carousel" aria-label="Product carousel">
+      <button class="carousel-button prev" type="button" id="carouselPrev" aria-label="Previous product">‹</button>
+      <div class="carousel-stage" id="productCarousel"></div>
+      <button class="carousel-button next" type="button" id="carouselNext" aria-label="Next product">›</button>
+      <div class="carousel-dots" id="carouselDots" aria-label="Product carousel pagination"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <span id="year"></span> Ooniau Studio</span>
+    <span data-i18n="footerText">專注、可靠、重視隱私的產品。</span>
+  </footer>
+
+  <script src="site.js"></script>
+</body>
+
+</html>

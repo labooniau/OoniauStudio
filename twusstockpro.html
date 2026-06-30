@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TWUS StockPro | Ooniau Studio</title>
+  <meta name="description" content="TWUS StockPro product page.">
+  <meta property="og:title" content="TWUS StockPro">
+  <meta property="og:description" content="TW/US Stock NotePro by Ooniau Studio.">
+  <meta property="og:image" content="assets/brand/ooniau-logo.png">
+  <link rel="icon" href="assets/brand/ooniau-logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="product-page">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="About Ooniau Studio">
+      <img src="assets/brand/ooniau-logo.png" alt="Ooniau Studio logo">
+      <span>Ooniau Studio</span>
+    </a>
+    <nav aria-label="Primary">
+      <div class="menu-tree">
+        <button class="menu-trigger" type="button" data-menu-trigger="products" aria-expanded="false"
+          data-i18n="navProducts">產品</button>
+        <div class="menu-panel" data-menu-panel="products">
+          <button class="menu-row" type="button" data-submenu-trigger="apps" aria-expanded="false">Apps</button>
+          <div class="submenu-panel" data-submenu-panel="apps">
+            <a href="twusstockpro.html">TWUS StockPro</a>
+          </div>
+        </div>
+      </div>
+      <a href="#features" data-i18n="navFeatures">功能</a>
+      <a href="about.html" data-i18n="navAbout">關於</a>
+      <a href="#contact" data-i18n="navContact">聯絡</a>
+    </nav>
+    <button class="lang-toggle" type="button" id="langToggle" aria-label="Toggle language">EN</button>
+  </header>
+
+  <main>
+    <section class="feature-band product-detail-hero" id="featuredProduct"></section>
+
+    <section class="section" id="features">
+      <div class="section-heading row-heading">
+        <div>
+          <p class="eyebrow" data-i18n="featuresLabel">功能代表圖</p>
+          <h2 data-i18n="featuresTitle">每張截圖都對應一個明確功能。</h2>
+        </div>
+      </div>
+      <div class="feature-screen-carousel">
+        <button class="feature-screen-button prev" type="button" id="featureScreenPrev" aria-label="Previous feature">&lsaquo;</button>
+        <div class="feature-screen-viewport" id="featureScreenViewport" aria-live="polite">
+          <div class="feature-screen-track" id="featureScreenGrid"></div>
+        </div>
+        <button class="feature-screen-button next" type="button" id="featureScreenNext" aria-label="Next feature">&rsaquo;</button>
+      </div>
+    </section>
+
+    <section class="section split-section" id="privacy">
+      <div>
+        <p class="eyebrow" data-i18n="privacyLabel">隱私</p>
+        <h2 data-i18n="privacyTitle">預設以本機資料為核心。</h2>
+      </div>
+      <div class="policy-list" id="privacyList"></div>
+    </section>
+
+    <section class="section split-section" id="policy">
+      <div>
+        <p class="eyebrow" data-i18n="policyLabel">政策</p>
+        <h2 data-i18n="policyTitle">投資與 AI 的界線說清楚。</h2>
+      </div>
+      <div class="policy-list" id="policyList"></div>
+    </section>
+
+    <section class="section split-section" id="contact">
+      <div>
+        <p class="eyebrow" data-i18n="contactLabel">支援</p>
+        <h2 data-i18n="contactTitle">需要 Ooniau Studio App 的協助嗎？</h2>
+      </div>
+      <div class="link-list">
+        <a href="mailto:labooniau@gmail.com">
+          <span data-i18n="emailTitle">Email 支援</span>
+          <small>labooniau@gmail.com</small>
+        </a>
+        <a href="support.html">
+          <span data-i18n="supportPageTitle">支援中心</span>
+          <small data-i18n="supportPageDesc">疑難排解、使用提醒與聯絡前準備資料。</small>
+        </a>
+        <a href="privacy.html">
+          <span data-i18n="privacyPageTitle">獨立隱私頁</span>
+          <small data-i18n="privacyPageDesc">如果商店要求專用隱私 URL，可使用此頁。</small>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <span id="year"></span> Ooniau Studio</span>
+    <span data-i18n="footerText">專注、可靠、重視隱私的產品。</span>
+  </footer>
+
+  <script src="site.js"></script>
+</body>
+
+</html>
